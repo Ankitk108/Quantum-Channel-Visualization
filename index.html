@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Channel Squeezing Visualization</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Quantum Channel Squeezing</h1>
+      <p>Interactive visualization of quantum noise effects on the Bloch sphere</p>
+    </header>
+
+    <div class="main-content">
+      <div class="controls-panel">
+        <div class="control-section">
+          <h3>Channel Configuration</h3>
+          
+          <div class="control-group">
+            <label for="channel">Noise Channel</label>
+            <select id="channel" class="select-input">
+              <option value="bit">Bit Flip Channel</option>
+              <option value="phase">Phase Flip Channel</option>
+              <option value="bit-phase">Bit Phase Flip Channel</option>
+              <option value="depol">Depolarizing Channel</option>
+              <option value="amplitude">Amplitude Damping</option>
+              <option value="phase-damping">Phase Damping</option>
+            </select>
+          </div>
+
+          <div class="control-group" id="noise-group">
+            <label for="p">Noise Probability: <span id="pval" contenteditable="true">0.10</span></label>
+            <input type="range" id="p" min="0" max="1" step="0.001" value="0.1" class="slider">
+            <div class="slider-labels">
+              <span>0</span>
+              <span>1</span>
+            </div>
+          </div>
+
+          <div class="control-group" id="gamma-group">
+            <label for="gamma">Damping Rate (γ): <span id="gammaval" contenteditable="true">0.50</span></label>
+            <input type="range" id="gamma" min="0" max="1" step="0.001" value="0.5" class="slider">
+            <div class="slider-labels">
+              <span>0</span>
+              <span>1</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <h3>Visualization</h3>
+          
+          <div class="control-group">
+            <label for="vectorCount">Vector Count: <span id="vectorCountVal" contenteditable="true">1000</span></label>
+            <input type="range" id="vectorCount" min="1" max="5000" step="100" value="1000" class="slider">
+            <div class="slider-labels">
+              <span>1</span>
+              <span>5000</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="animationSpeed">Animation Speed: <span id="animSpeedVal">1.0x</span></label>
+            <input type="range" id="animationSpeed" min="0.1" max="3" step="0.1" value="1" class="slider">
+            <div class="slider-labels">
+              <span>0.1x</span>
+              <span>3x</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label>Color Scheme</label>
+            <div class="color-scheme-grid">
+              <button class="color-btn active" data-scheme="default">Default</button>
+              <button class="color-btn" data-scheme="quantum">Quantum</button>
+              <button class="color-btn" data-scheme="thermal">Thermal</button>
+              <button class="color-btn" data-scheme="neon">Neon</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="showstats" checked>
+                <span class="checkmark"></span>
+                Show Stats Panel
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="showTrails" checked>
+                <span class="checkmark"></span>
+                Show Transformation Trails
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="showSphere">
+                <span class="checkmark"></span>
+                Show Bloch Sphere
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="animateTransition" checked>
+                <span class="checkmark"></span>
+                Animate Transitions
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <h3>Presets</h3>
+          <div class="preset-buttons">
+            <button class="preset-btn" data-preset="minimal">Minimal Noise</button>
+            <button class="preset-btn" data-preset="moderate">Moderate Noise</button>
+            <button class="preset-btn" data-preset="strong">Strong Noise</button>
+            <button class="preset-btn" data-preset="extreme">Extreme Noise</button>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <h3>Actions</h3>
+          <div class="action-buttons">
+            <button id="regenerate" class="action-btn primary">Regenerate Vectors</button>
+            <button id="reset" class="action-btn secondary">Reset to Default</button>
+            <button id="export" class="action-btn secondary">Export Image</button>
+          </div>
+        </div>
+
+        <!-- Mathematical Details Section -->
+        <div class="control-section">
+          <h3>Mathematical Background</h3>
+          <div class="math-details">
+            <div class="math-section">
+              <h4>Quantum Channels</h4>
+              <p>Quantum channels describe how quantum states evolve under noise. Each channel transforms the Bloch vector <strong>r = (x, y, z)</strong> differently:</p>
+            </div>
+            
+            <div class="math-section">
+              <h4>Bit Flip Channel</h4>
+              <p><strong>Effect:</strong> Flips qubit with probability p</p>
+              <p><strong>Transform:</strong> (x, y, z) → (x, (1-2p)y, (1-2p)z)</p>
+              <p><strong>Physics:</strong> Preserves X-component, shrinks Y and Z</p>
+            </div>
+            
+            <div class="math-section">
+              <h4>Phase Flip Channel</h4>
+              <p><strong>Effect:</strong> Applies phase flip with probability p</p>
+              <p><strong>Transform:</strong> (x, y, z) → ((1-2p)x, (1-2p)y, z)</p>
+              <p><strong>Physics:</strong> Preserves Z-component, shrinks X and Y</p>
+            </div>
+            
+            <div class="math-section">
+              <h4>Depolarizing Channel</h4>
+              <p><strong>Effect:</strong> Mixes state with maximally mixed state</p>
+              <p><strong>Transform:</strong> (x, y, z) → (sx, sy, sz) where s = 1 - 4p/3</p>
+              <p><strong>Physics:</strong> Uniform shrinking toward center</p>
+            </div>
+            
+            <div class="math-section">
+              <h4>Amplitude Damping</h4>
+              <p><strong>Effect:</strong> Models energy loss (T₁ relaxation)</p>
+              <p><strong>Transform:</strong> (x, y, z) → (√(1-γ)x, √(1-γ)y, (1-γ)z + γ)</p>
+              <p><strong>Physics:</strong> Drives states toward |0⟩ (north pole)</p>
+            </div>
+            
+            <div class="math-section">
+              <h4>Phase Damping</h4>
+              <p><strong>Effect:</strong> Models dephasing (T₂ relaxation)</p>
+              <p><strong>Transform:</strong> (x, y, z) → (e^(-γ)x, e^(-γ)y, z)</p>
+              <p><strong>Physics:</strong> Preserves populations, destroys coherence</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <h3>Key Metrics</h3>
+          <div class="metrics-explanation">
+            <div class="metric-item">
+              <h4>Fidelity</h4>
+              <p>Measures how similar the transformed states are to the original states. Higher values (closer to 1) indicate better preservation of quantum information.</p>
+            </div>
+            <div class="metric-item">
+              <h4>Average Distance</h4>
+              <p>Average Euclidean distance between original and transformed Bloch vectors. Lower values indicate less distortion.</p>
+            </div>
+            <div class="metric-item">
+              <h4>Volume Ratio</h4>
+              <p>Ratio of transformed to original state space volume. Values &lt; 1 indicate contraction (information loss).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="plot-container">
+        <div id="plot" class="plot"></div>
+        <div class="plot-overlay">
+          <div class="stats-panel">
+            <h4>Statistics</h4>
+            <div class="stat-item">
+              <span>Fidelity:</span>
+              <span id="fidelity">0.95</span>
+            </div>
+            <div class="stat-item">
+              <span>Avg. Distance:</span>
+              <span id="avgDistance">0.12</span>
+            </div>
+            <div class="stat-item">
+              <span>Volume Ratio:</span>
+              <span id="volumeRatio">0.85</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Interactive quantum channel visualization • Built with Plotly.js</p>
+    </footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
