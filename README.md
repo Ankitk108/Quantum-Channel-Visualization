@@ -52,17 +52,6 @@ Quantum-Channel-Visualization/
 
 ---
 
-## 🚀 How to Use
-
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/Ankitk108/Quantum-Channel-Visualization.git
-   ```
-
-2. Open `index.html` in any modern web browser — no installation required!
-
----
-
 ## 📌 Dependencies
 
 - [Plotly.js](https://plotly.com/javascript/) — for rendering the Bloch sphere in 3D.
@@ -74,11 +63,9 @@ Quantum-Channel-Visualization/
 Here are some ideas and features planned for future versions:
 
 - ✅ Add more noise channels like:
-  - Amplitude Damping
   - Generalized Kraus Maps
 - ✅ Mobile-friendly responsive design
 - ✅ Add "Preset States" menu (e.g., |0⟩, |+⟩, |1⟩)
-- ✅ Ability to export the Bloch sphere as PNG image
 - ✅ Side panel showing the density matrix in real-time
 - ✅ Add plots for Fidelity or Purity as a function of noise
 - ✅ Create a blog post/tutorial explaining the theory behind the visualization
