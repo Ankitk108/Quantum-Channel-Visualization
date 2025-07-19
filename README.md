@@ -88,14 +88,6 @@ Contributions are welcome!
 
 ---
 
-## 🧑‍💻 Author
-
-**Ankit Kashyap**  
-Student at IISER Mohali  
-🔗 [GitHub](https://github.com/Ankitk108)
-
----
-
 ## 📜 License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
