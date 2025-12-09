@@ -8,7 +8,7 @@ This is an interactive web-based visualization tool for understanding how differ
 
 ## 🌐 Live Demo
 
-🔗 [View on GitHub Pages](https://ankitk108.github.io/Quantum-Channel-Visualization)
+🔗 [View Project](https://ankitk108.github.io/Quantum-Channel-Visualization)
 
 ---
 
